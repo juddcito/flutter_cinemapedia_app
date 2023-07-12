@@ -7,6 +7,8 @@ import 'package:flutter_cinemapedia_app/domain/entities/movie.dart';
 import 'package:flutter_cinemapedia_app/infrastructure/mappers/movie_mapper.dart';
 import 'package:flutter_cinemapedia_app/infrastructure/models/moviedb/moviedb_response.dart';
 
+import '../models/moviedb/movie_details.dart';
+
 class MovieDbDatasource extends MoviesDatasource{
 
   final dio = Dio(BaseOptions(
@@ -73,6 +75,19 @@ class MovieDbDatasource extends MoviesDatasource{
     });
     
     return _jsonToMovies(response.data);
+  }
+  
+  @override
+  Future<Movie> getMovieById( String id ) async {
+
+    final response = await dio.get('/movie/upcoming');
+    if ( response.statusCode != 200 ) throw Exception('Movie with id: $id not found');
+
+    final movieDetails = MovieDetails.fromJson( response.data );
+
+    final Movie movie = MovieMapper.movieDetailsToEntity(movieDetails);
+    
+    return movie;
   }
 
 }
