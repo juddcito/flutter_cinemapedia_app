@@ -40,7 +40,5 @@ class MovieMapNotifier extends StateNotifier<Map<String,Movie>> {
     state = { ...state, movieId: movie };
 
   }
-
-
 }
 
