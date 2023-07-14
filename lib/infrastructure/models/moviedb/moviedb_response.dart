@@ -1,56 +1,84 @@
 
-import 'movie_moviedb.dart';
-
-class MovieDbResponse {
-    final Dates? dates;
-    final int page;
-    final List<MovieFromMovieDB> results;
+class SactiDbResponse {
+    final dynamic search;
+    final int pageIndex;
+    final int pageSize;
+    final int total;
+    final List<Register> registers;
     final int totalPages;
-    final int totalResults;
+    final bool hasPreviusPage;
+    final bool hasNextPage;
 
-    MovieDbResponse({
-        required this.dates,
-        required this.page,
-        required this.results,
+    SactiDbResponse({
+        this.search,
+        required this.pageIndex,
+        required this.pageSize,
+        required this.total,
+        required this.registers,
         required this.totalPages,
-        required this.totalResults,
+        required this.hasPreviusPage,
+        required this.hasNextPage,
     });
 
-    factory MovieDbResponse.fromJson(Map<String, dynamic> json) => MovieDbResponse(
-        dates: json["dates"] != null ? Dates.fromJson(json["dates"]): null,
-        page: json["page"],
-        results: List<MovieFromMovieDB>.from(json["results"].map((x) => MovieFromMovieDB.fromJson(x))),
-        totalPages: json["total_pages"],
-        totalResults: json["total_results"],
+    factory SactiDbResponse.fromJson(Map<String, dynamic> json) => SactiDbResponse(
+        search: json["search"],
+        pageIndex: json["pageIndex"],
+        pageSize: json["pageSize"],
+        total: json["total"],
+        registers: List<Register>.from(json["registers"].map((x) => Register.fromJson(x))),
+        totalPages: json["totalPages"],
+        hasPreviusPage: json["hasPreviusPage"],
+        hasNextPage: json["hasNextPage"],
     );
 
     Map<String, dynamic> toJson() => {
-        "dates": dates == null ? null : dates!.toJson(),
-        "page": page,
-        "results": List<dynamic>.from(results.map((x) => x.toJson())),
-        "total_pages": totalPages,
-        "total_results": totalResults,
+        "search": search,
+        "pageIndex": pageIndex,
+        "pageSize": pageSize,
+        "total": total,
+        "registers": List<dynamic>.from(registers.map((x) => x.toJson())),
+        "totalPages": totalPages,
+        "hasPreviusPage": hasPreviusPage,
+        "hasNextPage": hasNextPage,
     };
 }
 
-class Dates {
-    final DateTime maximum;
-    final DateTime minimum;
+class Register {
+    final int id;
+    final String nombre;
+    final int precio;
+    final int marcaId;
+    final String marca;
+    final int categoriaId;
+    final String categoria;
 
-    Dates({
-        required this.maximum,
-        required this.minimum,
+    Register({
+        required this.id,
+        required this.nombre,
+        required this.precio,
+        required this.marcaId,
+        required this.marca,
+        required this.categoriaId,
+        required this.categoria,
     });
 
-    factory Dates.fromJson(Map<String, dynamic> json) => Dates(
-        maximum: DateTime.parse(json["maximum"]),
-        minimum: DateTime.parse(json["minimum"]),
+    factory Register.fromJson(Map<String, dynamic> json) => Register(
+        id: json["id"],
+        nombre: json["nombre"],
+        precio: json["precio"],
+        marcaId: json["marcaId"],
+        marca: json["marca"],
+        categoriaId: json["categoriaId"],
+        categoria: json["categoria"],
     );
 
     Map<String, dynamic> toJson() => {
-        "maximum": "${maximum.year.toString().padLeft(4, '0')}-${maximum.month.toString().padLeft(2, '0')}-${maximum.day.toString().padLeft(2, '0')}",
-        "minimum": "${minimum.year.toString().padLeft(4, '0')}-${minimum.month.toString().padLeft(2, '0')}-${minimum.day.toString().padLeft(2, '0')}",
+        "id": id,
+        "nombre": nombre,
+        "precio": precio,
+        "marcaId": marcaId,
+        "marca": marca,
+        "categoriaId": categoriaId,
+        "categoria": categoria,
     };
 }
-
-
