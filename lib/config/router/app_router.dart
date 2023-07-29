@@ -1,11 +1,46 @@
-import 'package:flutter_cinemapedia_app/presentation/screens/screens.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:flutter_cinemapedia_app/presentation/screens/screens.dart';
+import '../../presentation/views/views.dart';
+
 final appRouter = GoRouter(initialLocation: '/', routes: [
-  GoRoute(
+  ShellRoute(
+      // Builder: algo que se llama en tiempo de ejecución para construir algo
+      builder: (context, state, child) {
+        return HomeScreen(childView: child);
+      },
+      routes: [
+        GoRoute(
+            path: '/',
+            builder: (context, state) {
+              return const HomeView();
+            },
+            routes: [
+              GoRoute(
+                path: 'movie/:id',
+                name: MovieScreen.name,
+                builder: (context, state) {
+                  final movieId = state.pathParameters['id'] ?? 'no-id';
+
+                  return MovieScreen(movieId: movieId);
+                },
+              ),
+            ]),
+        GoRoute(
+          path: '/favorites',
+          builder: (context, state) {
+            return const FavoritesView();
+          },
+        )
+      ]),
+
+  // Rutas padre/hijo
+  /*GoRoute(
       path: '/',
       name: HomeScreen.name,
-      builder: (context, state) => const HomeScreen(),
+      builder: (context, state) => const HomeScreen(
+        childView: HomeView(),
+      ),
       routes: [
         GoRoute(
           path: 'movie/:id',
@@ -17,4 +52,5 @@ final appRouter = GoRouter(initialLocation: '/', routes: [
           },
         ),
       ]),
+      */
 ]);
