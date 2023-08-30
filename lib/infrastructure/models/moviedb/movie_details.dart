@@ -1,6 +1,7 @@
 
 
 class MovieDetails {
+  
     final bool adult;
     final String backdropPath;
     final dynamic belongsToCollection;
@@ -58,12 +59,12 @@ class MovieDetails {
     factory MovieDetails.fromJson(Map<String, dynamic> json) => MovieDetails(
         adult: json["adult"],
         backdropPath: json["backdrop_path"] ?? '',
-        belongsToCollection: json["belongs_to_collection"] == null ? null : json["belongs_to_collection"],
+        belongsToCollection: json["belongs_to_collection"],
         budget: json["budget"],
         genres: List<Genre>.from(json["genres"].map((x) => Genre.fromJson(x))),
         homepage: json["homepage"],
         id: json["id"],
-        imdbId: json["imdb_id"],
+        imdbId: json["imdb_id"] ?? "",
         originalLanguage: json["original_language"],
         originalTitle: json["original_title"],
         overview: json["overview"],
